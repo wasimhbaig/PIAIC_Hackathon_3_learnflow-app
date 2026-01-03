@@ -245,7 +245,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
         {/* Tab Navigation */}
         <div className="flex gap-2 mb-4">
           <button
@@ -272,9 +272,11 @@ export default function Home() {
         </div>
 
         {/* Content Area */}
-        <div className="h-[calc(100vh-220px)]">
+        <div className="mb-8">
           {activeTab === 'chat' && (
-            <ChatInterface studentId={studentId} token={token} />
+            <div className="h-[calc(100vh-280px)]">
+              <ChatInterface studentId={studentId} token={token} />
+            </div>
           )}
 
           {activeTab === 'code' && (
@@ -283,7 +285,7 @@ export default function Home() {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-4 gap-4 mt-8">
+        <div className="grid grid-cols-4 gap-4">
           <div className="bg-white rounded-lg shadow p-4">
             <div className="text-sm text-gray-600">Current Streak</div>
             <div className="text-2xl font-bold text-blue-600">5 days 🔥</div>

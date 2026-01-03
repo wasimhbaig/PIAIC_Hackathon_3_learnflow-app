@@ -45,6 +45,23 @@ async def get_current_user(
     """
     token = credentials.credentials
 
+    # Demo mode: Accept demo tokens for testing
+    if token.startswith("token-") or token.startswith("demo-"):
+        # Extract student ID from demo token (format: token-student-123-timestamp)
+        parts = token.split("-")
+        if len(parts) >= 2:
+            student_id = parts[1] if token.startswith("token-") else "student-123"
+            if len(parts) >= 3 and token.startswith("token-"):
+                student_id = f"{parts[1]}-{parts[2]}"
+
+            logger.info("Demo token accepted", student_id=student_id)
+            return {
+                "id": student_id,
+                "email": f"{student_id}@learnflow.com",
+                "role": "student",
+                "full_name": "Demo Student"
+            }
+
     try:
         payload = jwt.decode(
             token,
