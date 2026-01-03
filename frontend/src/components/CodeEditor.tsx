@@ -4,7 +4,7 @@
  */
 import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
-import axios from 'axios';
+import { apiClient } from '../services/api';
 
 interface CodeEditorProps {
   token: string;
@@ -28,7 +28,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ token }) => {
     setOutput(null);
 
     try {
-      const response = await axios.post(
+      const response = await apiClient.post(
         '/api/v1/code/execute',
         {
           code,
@@ -42,7 +42,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ token }) => {
       );
 
       setOutput(response.data);
-    } catch (error) {
+    } catch (error: any) {
       setOutput({
         status: 'error',
         stdout: '',

@@ -27,9 +27,12 @@ export const useWebSocket = (studentId: string, token: string): UseWebSocketRetu
   useEffect(() => {
     if (!studentId || !token) return;
 
-    // Construct WebSocket URL
+    // Construct WebSocket URL - connect to backend API on port 8000
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/api/v1/chat/ws?student_id=${studentId}`;
+    const hostname = window.location.hostname;
+    const wsUrl = `${protocol}//${hostname}:8000/api/v1/chat/ws?student_id=${studentId}`;
+
+    console.log('Connecting to WebSocket:', wsUrl);
 
     // Create WebSocket connection
     const ws = new WebSocket(wsUrl);
