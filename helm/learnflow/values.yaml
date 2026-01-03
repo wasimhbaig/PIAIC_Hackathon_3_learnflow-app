@@ -1,0 +1,92 @@
+namespace: learnflow
+domain: learnflow.local
+replicas: 3
+
+image:
+  pullPolicy: IfNotPresent
+
+api:
+  name: learnflow-api
+  image: learnflow-api:latest
+  port: 8000
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+agents:
+  name: learnflow-agents
+  image: learnflow-agents:latest
+  port: 8001
+  replicas: 2
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+
+sandbox:
+  name: learnflow-sandbox
+  image: learnflow-sandbox:latest
+  port: 8080
+  replicas: 2
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "250m"
+    limits:
+      memory: "256Mi"
+      cpu: "500m"
+
+mcp:
+  name: learnflow-mcp
+  image: learnflow-mcp:latest
+  port: 8765
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+
+dapr:
+  enabled: true
+  sidecar:
+    image: "daprio/dapr:1.12.0"
+    appPort: 8000
+    httpPort: 3500
+    grpcPort: 50001
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls:
+    enabled: false
+
+monitoring:
+  enabled: true
+  prometheus:
+    scrape: true
+    port: 8000
+    path: /metrics
+
+database:
+  host: postgres.learnflow.svc
+  port: 5432
+  name: learnflow
+  user: learnflow
+
+kafka:
+  brokers: kafka.learnflow.svc:9092
+  topics:
+    - student-activity
+    - mastery-updates
+    - struggle-alerts

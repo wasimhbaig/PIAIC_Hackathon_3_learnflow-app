@@ -1,0 +1,22 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install MCP and dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt mcp==0.9.0
+
+# Copy MCP server code
+COPY src/mcp_server/ ./src/mcp_server/
+COPY src/models/ ./src/models/
+COPY src/config.py ./src/
+
+# Create non-root user
+RUN useradd -m -u 1000 learnflow && \
+    chown -R learnflow:learnflow /app
+
+USER learnflow
+
+EXPOSE 8765
+
+CMD ["python", "-m", "src.mcp_server.server"]

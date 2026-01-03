@@ -1,0 +1,15 @@
+apiVersion: v2
+name: learnflow
+description: AI-powered Python tutoring platform with multi-agent architecture
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - ai
+  - education
+  - python
+  - tutoring
+  - dapr
+  - kafka
+maintainers:
+  - name: LearnFlow Team

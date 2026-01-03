@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Minimal Python environment for code execution
+RUN apt-get update && apt-get install -y \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install RestrictedPython
+RUN pip install --no-cache-dir RestrictedPython==6.2
+
+# Copy sandbox service
+COPY src/sandbox/ ./src/sandbox/
+
+# Create restricted user
+RUN useradd -m -u 1000 -s /bin/false sandbox && \
+    chown -R sandbox:sandbox /app
+
+USER sandbox
+
+EXPOSE 8080
+
+CMD ["python", "-m", "src.sandbox.server"]
